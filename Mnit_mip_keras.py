@@ -38,12 +38,40 @@ model.add(Dense(10, activation='softmax'))  #output layer with 10 neurons (one f
 #compile the model
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
+
 #train the model
-model.fit(x_train, y_train, epochs=10, batch_size=64)
+result=model.fit(x_train, y_train, epochs=5, batch_size=64 , validation_split=0.2)
 
 #evaluate the model
+train_loss, train_accuracy = model.evaluate(x_train, y_train)
+print(f'Train loss: {train_loss}')
+print(f'Train accuracy: {train_accuracy}')
+
+
 test_loss, test_accuracy = model.evaluate(x_test, y_test)
+print(f'Test loss: {test_loss}')
 print(f'Test accuracy: {test_accuracy}')
+print(result.history.keys())
+print(result.history.values())
+print(result.history)
+
+#visualize training history
+plt.plot(result.history['val_loss'], label='validation loss', color='blue')
+plt.plot(result.history['loss'], label='Train loss', color='green')
+plt.title('Training Loss vs Validation Loss')
+plt.xlabel('Epochs')
+plt.ylabel('accuracy')
+plt.legend()
+plt.show()
+
+plt.plot(result.history['val_accuracy'], label='validation accuracy', color='blue')
+plt.plot(result.history['accuracy'], label='Train accuracy', color='green')
+plt.title('Training Accuracy vs Validation Accuracy')
+plt.xlabel('Epochs')
+plt.ylabel('accuracy')
+plt.legend()
+plt.show()
+
 
 
 
